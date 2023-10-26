@@ -95,4 +95,12 @@ define DNSMASQ_INSTALL_INIT_SYSV
 		$(TARGET_DIR)/etc/init.d/S80dnsmasq
 endef
 
+define DNSMASQ_INSTALL_INIT_SYSTEMD
+	$(INSTALL) -D -m 644 package/dnsmasq/dnsmasq.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/dnsmasq.service
+	mkdir -p $(TARGET_DIR)/etc/systemd/system/multi-user.target.wants
+	ln -sf /usr/lib/systemd/system/dnsmasq.service \
+		$(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/dnsmasq.service
+endef
+
 $(eval $(generic-package))
